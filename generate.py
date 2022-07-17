@@ -51,17 +51,39 @@ generate_habitable_planet = lambda parent : generate_planet(parent, parent.habit
 generate_terrestrial_planet = lambda parent : generate_planet(parent, [parent.inner_limit, parent.snow_line], terrestrial_radii, terrestrial_gravities)
 generate_gas_giant = lambda parent : generate_planet(parent, [parent.snow_line, parent.outer_limit], giant_radii, giant_gravities)	
 
+def generate_system(habitable_quota, terrestrial_quota, giant_quota, habitable_only=False):
+	star = generate_star(habitable_only)
+	
+	count = 0
+	while count < habitable_quota:
+		candidate = generate_habitable_planet(star)
+		result = star.add_planet(candidate)
+		if result == True:
+			count += 1
+			
+	count = 0
+	while count < terrestrial_quota:
+		candidate = generate_terrestrial_planet(star)
+		result = star.add_planet(candidate)
+		if result == True:
+			count += 1
+			
+	count = 0
+	while count < giant_quota:
+		candidate = generate_gas_giant(star)
+		result = star.add_planet(candidate)
+		if result == True:
+			count += 1
+	
+	return star
 
 if __name__ == "__main__":
-	test_star = generate_star()
-	print(test_star.__dict__)
+	test_system = generate_system(2, 3, 3)
+	print(test_system.__dict__)
 	
-	test_planet = generate_terrestrial_planet(test_star)
-	print(test_planet.__dict__)
-	
-	test_habitable = generate_habitable_planet(test_star)
-	print(test_habitable.__dict__)
-	
-	test_giant = generate_gas_giant(test_star)
-	print(test_giant.__dict__)
+	for planet in test_system.planets:
+		print(planet.__dict__)
+		
+	for i in range(1, 1000):
+		generate_system(6, 6, 6)
 
