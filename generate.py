@@ -47,10 +47,11 @@ def generate_planet(parent_star, distance_range, radius_range, gravity_range):
 	gravity = round(gravity_range[0] + ((gravity_range[1] - gravity_range[0]) * planet_factor), 4)
 	return Planet(distance, radius, gravity, parent_star.luminosity, parent_star.mass)
 
-generate_terrestrial_planet = lambda parent : generate_planet(parent, [parent.inner_limit, parent.snow_line], terrestrial_radii, terrestrial_gravities)
 generate_habitable_planet = lambda parent : generate_planet(parent, parent.habitable_zone, terrestrial_radii, terrestrial_gravities)
+generate_terrestrial_planet = lambda parent : generate_planet(parent, [parent.inner_limit, parent.snow_line], terrestrial_radii, terrestrial_gravities)
 generate_gas_giant = lambda parent : generate_planet(parent, [parent.snow_line, parent.outer_limit], giant_radii, giant_gravities)	
-	
+
+
 if __name__ == "__main__":
 	test_star = generate_star()
 	print(test_star.__dict__)

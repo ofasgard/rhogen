@@ -18,6 +18,8 @@ class Star:
 		self.habitable_zone = self.calculate_habitable_zone()
 		"Snow Line: the limit at which terrestrial planets can no longer form, and gas or ice giants form instead (in AU)."
 		self.snow_line = self.calculate_snow_line()
+		"Planets: a list of Planet objects which are in orbit around this star."
+		self.planets = []
 	def calculate_inner_limit(self):
 		# The star's inner limit is determined by either luminosity or gravity, whichever is higher.
 		gravity_limit = 0.2 * self.mass
@@ -35,6 +37,15 @@ class Star:
 	def calculate_snow_line(self):
 		# The snow line is determined exclusively by luminosity. When it is below 0.04, enough volatile compounds can condense for gas/ice giants to form.
 		snow_line = math.sqrt(self.luminosity / 0.04)
-		return snow_line		
+		return snow_line
+	def add_planet(self, planet):
+		# Add a planet to a star. Returns True if successful, or False if the planet isn't allowed.
+		if planet.distance < self.inner_limit:
+			return False
+		if planet.distance > self.outer_limit:
+			return False
+		
+		self.planets.append(planet)
+		return True		
 
 
