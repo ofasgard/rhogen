@@ -87,13 +87,3 @@ def generate_system(habitable_quota, terrestrial_quota, giant_quota, habitable_o
 
 	return star
 
-if __name__ == "__main__":
-	test_system = generate_system(2, 3, 3)
-	print(test_system.__dict__)
-	
-	for planet in test_system.planets:
-		print(planet.__dict__)
-		
-	for i in range(1, 1000):
-		generate_system(6, 6, 6)
-
