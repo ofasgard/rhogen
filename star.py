@@ -40,14 +40,17 @@ class Star:
 		return snow_line
 	def add_planet(self, planet):
 		# Add a planet to a star. Returns True if successful, or False if the planet isn't allowed.
+		# The planet must be within the star's inner and outer limits.
 		if planet.distance < self.inner_limit:
 			return False
 		if planet.distance > self.outer_limit:
 			return False
-		
+		# If two planets are closer than the larger planet's roche limit, then the smaller planet will be torn apart.
+		for existing_planet in self.planets:
+			roche_limit = max(existing_planet.roche_limit, planet.roche_limit)
+			distance = abs(planet.distance - existing_planet.distance)
+			if distance < roche_limit:
+				return False
+		# If all checks pass, add the planet.
 		self.planets.append(planet)
 		return True		
-
-# the closest 2 planets can be without tearing each other apart is the roche limit of the larger planet
-# so whichever planet has the larger radius, check whether the other one intersects the roche limit
-
