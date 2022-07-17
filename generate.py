@@ -41,7 +41,9 @@ def generate_star(habitable_only=False):
 	return Star(result, star_class["description"], luminosity, mass)
 	
 def generate_planet(parent_star, distance_range, radius_range, gravity_range):	
+	# distance is independent
 	distance = round(random.uniform(distance_range[0], distance_range[1]), 4)
+	# radius and gravity are related to each other
 	planet_factor = round(random.uniform(0.01, 1.00), 4)
 	radius = round(radius_range[0] + ((radius_range[1] - radius_range[0]) * planet_factor), 4)
 	gravity = round(gravity_range[0] + ((gravity_range[1] - gravity_range[0]) * planet_factor), 4)
@@ -51,30 +53,35 @@ generate_habitable_planet = lambda parent : generate_planet(parent, parent.habit
 generate_terrestrial_planet = lambda parent : generate_planet(parent, [parent.inner_limit, parent.snow_line], terrestrial_radii, terrestrial_gravities)
 generate_gas_giant = lambda parent : generate_planet(parent, [parent.snow_line, parent.outer_limit], giant_radii, giant_gravities)	
 
-def generate_system(habitable_quota, terrestrial_quota, giant_quota, habitable_only=False):
+def generate_system(habitable_quota, terrestrial_quota, giant_quota, habitable_only=False, max_cycles=1000):
 	star = generate_star(habitable_only)
 	
+	cycles = 0
 	count = 0
-	while count < habitable_quota:
+	while count < habitable_quota and cycles < max_cycles:
 		candidate = generate_habitable_planet(star)
 		result = star.add_planet(candidate)
-		if result == True:
-			count += 1
-			
-	count = 0
-	while count < terrestrial_quota:
-		candidate = generate_terrestrial_planet(star)
-		result = star.add_planet(candidate)
-		if result == True:
-			count += 1
-			
-	count = 0
-	while count < giant_quota:
-		candidate = generate_gas_giant(star)
-		result = star.add_planet(candidate)
+		cycles += 1
 		if result == True:
 			count += 1
 	
+	cycles = 0		
+	count = 0
+	while count < terrestrial_quota and cycles < max_cycles:
+		candidate = generate_terrestrial_planet(star)
+		result = star.add_planet(candidate)
+		cycles += 1
+		if result == True:
+			count += 1
+	cycles = 0		
+	count = 0
+	while count < giant_quota and cycles < max_cycles:
+		candidate = generate_gas_giant(star)
+		result = star.add_planet(candidate)
+		cycles += 1
+		if result == True:
+			count += 1
+
 	return star
 
 if __name__ == "__main__":
