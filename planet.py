@@ -63,5 +63,5 @@ class Planet:
 			return "thin atmosphere"
 		else:
 			# The planet can hold onto nitrogen; it has some kind of atmosphere.
-			return random.choice(["breathable atmosphere", "inert atmosphere", "dense atmosphere", "corrosive atmosphere"])
+			return random.choice(["thin atmosphere", "breathable atmosphere", "inert atmosphere", "dense atmosphere", "corrosive atmosphere"])
 
