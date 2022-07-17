@@ -20,8 +20,11 @@ star_table = [
 	(100, "M")
 ]
 
+habitable_radii = [0.5, 1.5]
+habitable_gravities = [0.4, 1.6]
+
 terrestrial_radii = [0.2, 2.0]
-terrestrial_gravities = [0.2, 1.75]
+terrestrial_gravities = [0.1, 2.0]
 
 giant_radii = [4.0, 15.0]
 giant_gravities = [10.0, 20.0]
@@ -49,7 +52,7 @@ def generate_planet(parent_star, distance_range, radius_range, gravity_range):
 	gravity = round(gravity_range[0] + ((gravity_range[1] - gravity_range[0]) * planet_factor), 4)
 	return Planet(distance, radius, gravity, parent_star.luminosity, parent_star.mass)
 
-generate_habitable_planet = lambda parent : generate_planet(parent, parent.habitable_zone, terrestrial_radii, terrestrial_gravities)
+generate_habitable_planet = lambda parent : generate_planet(parent, parent.habitable_zone, habitable_radii, habitable_gravities)
 generate_terrestrial_planet = lambda parent : generate_planet(parent, [parent.inner_limit, parent.snow_line], terrestrial_radii, terrestrial_gravities)
 generate_gas_giant = lambda parent : generate_planet(parent, [parent.snow_line, parent.outer_limit], giant_radii, giant_gravities)	
 
