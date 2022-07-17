@@ -10,6 +10,8 @@ class Planet:
 		self.gravity = gravity
 		"Mass: the planet's mass relative to that of Earth (Terra = 1.0)"
 		self.mass = self.calculate_mass()
+		"Roche Limit: the minimum distance a satellite or other planet can be without being torn apart (in AU)."
+		self.roche_limit = self.calculate_roche_limit()
 		"Year Length: how long this planet's year is in Earth days (Terra = 365)"
 		self.year_length = self.calculate_year_length(stellar_mass)
 		"Sunlight: the intensity factor of the sunlight this planet receives (Terra = 1.0)"
@@ -22,6 +24,12 @@ class Planet:
 		# The mass of a planet can be calculated using its radius and gravity, inferring its density.
 		mass = self.gravity * (self.radius **2)
 		return mass
+	def calculate_roche_limit(self):
+		# The Roche Limit is approximately 2.5x the radius of the planet. We multiply this by the radius of Earth to get the distance in AU.
+		roche_radius = self.radius * 2.5
+		roche_limit_km = roche_radius * 6371
+		roche_limit_au = roche_limit_km / 1.496e+8
+		return roche_limit_au
 	def calculate_year_length(self, stellar_mass):
 		# The length a year is a factor of the star's mass (and thus gravity) and of the planet's distance from it.
 		year_length = math.sqrt(self.distance ** 3 / stellar_mass)

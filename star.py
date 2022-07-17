@@ -48,4 +48,6 @@ class Star:
 		self.planets.append(planet)
 		return True		
 
+# the closest 2 planets can be without tearing each other apart is the roche limit of the larger planet
+# so whichever planet has the larger radius, check whether the other one intersects the roche limit
 
