@@ -63,12 +63,4 @@ if __name__ == "__main__":
 	
 	test_giant = generate_gas_giant(test_star)
 	print(test_giant.__dict__)
-	
-
-	
-	#todo
-	# unify star and planet generation - how many planets per star? how are they placed into the various zones we have calculated?
-	# do we just distribute planets randomly, or do we allow specification of how many terrestrial planets and gas giants we want?
-	# 1 habitable planet, 0-2 terrestrial planets, 0-3 gas giants
-	# satellite and ring generation?
 
