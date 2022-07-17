@@ -1,3 +1,4 @@
+import util
 import math, random
 
 class Planet:
@@ -27,8 +28,8 @@ class Planet:
 	def calculate_roche_limit(self):
 		# The Roche Limit is approximately 2.5x the radius of the planet. We multiply this by the radius of Earth to get the distance in AU.
 		roche_radius = self.radius * 2.5
-		roche_limit_km = roche_radius * 6371
-		roche_limit_au = roche_limit_km / 1.496e+8
+		roche_limit_km = util.planetary_radius_to_km(roche_radius)
+		roche_limit_au = util.km_to_au(roche_limit_km)
 		return roche_limit_au
 	def calculate_year_length(self, stellar_mass):
 		# The length a year is a factor of the star's mass (and thus gravity) and of the planet's distance from it.
@@ -48,7 +49,7 @@ class Planet:
 		# This is probably the most complex calculation; it involves calculating the planet's escape velocity (based on gravity).
 		# You can then use this to figure out which gases the planet can hold onto; if it can only hold onto light gases, the atmosphere is thin.
 		escape_constant = 2.365 * (10 ** -5)
-		meter_radius = 6371000.00 * self.radius
+		meter_radius = util.planetary_radius_to_m(self.radius)
 		density_factor = (self.radius ** 3) / self.mass
 		density_kg = density_factor * 5500
 		escape_velocity = escape_constant * meter_radius * math.sqrt(density_kg)
