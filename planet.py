@@ -23,8 +23,6 @@ class Planet:
 		self.temperature = self.calculate_temperature()
 		"Atmosphere: what kind of atmosphere does this planet have, if any?"
 		self.atmosphere = self.calculate_atmosphere()
-		"Satellites: a list of Planet objects representing moons in orbit around this planet."
-		self.satellites = []
 	def calculate_mass(self):
 		# The mass of a planet can be calculated using its radius and gravity, inferring its density.
 		mass = self.gravity * (self.radius ** 2)
@@ -75,23 +73,4 @@ class Planet:
 		else:
 			# The planet can hold onto nitrogen; it has some kind of atmosphere.
 			return random.choice(["thin atmosphere", "breathable atmosphere", "inert atmosphere", "dense atmosphere", "corrosive atmosphere"])
-	def add_satellite(self, satellite):
-		# Add a satellite to a planet. Returns True if successful, or False if the satellite isn't allowed.
-		# The satellite must be within the planet's Roche and Hill limits.
-		if satellite.distance < self.roche_limit:
-			return False
-		if satellite.distance > self.hill_limit:
-			return False
-		# The satellite cannot be more massive than its parent body.
-		if satellite.mass > self.mass:
-			return False
-		# If two satellites are closer than the larger satellite's roche limit, then the smaller satellite will be torn apart.
-		for existing_satellite in self.satellites:
-			roche_limit = max(existing_satellite.roche_limit, satellite.roche_limit)
-			distance = abs(satellite.distance - existing_satellite.distance)
-			if distance < roche_limit:
-				return False
-		# If all checks pass, add the satellite.
-		self.satellites.append(satellite)
-		return True
 

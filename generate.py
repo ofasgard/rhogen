@@ -54,7 +54,7 @@ def generate_planet(parent_star, distance_range, radius_range, gravity_range):
 
 generate_habitable_planet = lambda parent : generate_planet(parent, parent.habitable_zone, habitable_radii, habitable_gravities)
 generate_terrestrial_planet = lambda parent : generate_planet(parent, [parent.inner_limit, parent.snow_line], terrestrial_radii, terrestrial_gravities)
-generate_gas_giant = lambda parent : generate_planet(parent, [parent.snow_line, parent.outer_limit], giant_radii, giant_gravities)	
+generate_gas_giant = lambda parent : generate_planet(parent, [parent.snow_line, parent.outer_limit], giant_radii, giant_gravities)
 
 def generate_system(habitable_quota, terrestrial_quota, giant_quota, habitable_only=False, max_cycles=100):
 	star = generate_star(habitable_only)
