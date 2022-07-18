@@ -2,6 +2,8 @@ import math
 	
 class Star:
 	def __init__(self, spectral_class, description, luminosity, mass):
+		"Name: the name of this star."
+		self.name = "Nameless Star"
 		"Spectral Class: the type of star in question designated by a single letter, i.e. 'a Class-A star'."
 		self.spectral_class = spectral_class
 		"Description: some flavour text describing the spectral class of the star."

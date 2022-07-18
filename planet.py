@@ -3,6 +3,8 @@ import math, random
 
 class Planet:
 	def __init__(self, distance, radius, gravity, stellar_luminosity, stellar_mass):
+		"Name: the name of this planet."
+		self.name = "Nameless Planet"
 		"Orbital Distance: the distance from this planet to its parent body (in AU)."
 		self.distance = distance
 		"Radius: the radius of the planetary surface, relative to that of Earth (Terra = 1.0)"
