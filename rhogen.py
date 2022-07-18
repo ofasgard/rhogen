@@ -33,4 +33,4 @@ if __name__ == "__main__":
 		except OSError as e:
 			print("Failed to write system JSON to '%s': %s" % (args.output_json, str(e)))
 
-	
+

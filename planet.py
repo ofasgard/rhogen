@@ -70,7 +70,11 @@ class Planet:
 		if nitrogen_velocity >= jeans_escape_velocity:
 			# The planet cannot hold onto nitrogen; it has only a thin atmosphere.
 			return "thin atmosphere"
-		else:
-			# The planet can hold onto nitrogen; it has some kind of atmosphere.
-			return random.choice(["thin atmosphere", "breathable atmosphere", "inert atmosphere", "dense atmosphere", "corrosive atmosphere"])
+		# Next we check whether the planet is beyond the system's snow line (gas giant) or liquid hydrogen line (ice giant).
+		if (self.sunlight < 0.0025):
+			return "ice giant"
+		if (self.sunlight < 0.04):
+			return "gas giant"
+		# Otherwise, this is a standard kind of terrestrial planet that could have a range of atmospheres.
+		return random.choice(["thin atmosphere", "breathable atmosphere", "inert atmosphere", "dense atmosphere", "corrosive atmosphere"])
 
