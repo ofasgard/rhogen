@@ -29,13 +29,14 @@ terrestrial_gravities = [0.1, 2.0]
 giant_radii = [4.0, 15.0]
 giant_gravities = [10.0, 20.0]
 
-def generate_star(habitable_only=False):
-	# roll on the star table
-	roll = random.randint(1, 100)
-	result = next(x[1] for x in star_table if roll <= x[0])
-	# if only habitable stars are allowed and this result is not habitable, use recursion to reroll until we get a habitable star
-	if habitable_only and not star_classes[result]["habitable"]:
-		return generate_star(habitable_only=True)
+def generate_star(spectral_class=None):
+	if spectral_class == None:
+		# if spectral class was not specified, roll on the star table
+		roll = random.randint(1, 100)
+		result = next(x[1] for x in star_table if roll <= x[0])
+	else:
+		# otherwise, use specified class
+		result = spectral_class
 	star_class = star_classes[result]
 	# generate a random number between 0.01 and 1.00 to use as a factor for the star's luminosity and mass
 	star_factor = round(random.uniform(0.01, 1.00), 4)
@@ -56,8 +57,8 @@ generate_habitable_planet = lambda parent : generate_planet(parent, parent.habit
 generate_terrestrial_planet = lambda parent : generate_planet(parent, [parent.inner_limit, parent.snow_line], terrestrial_radii, terrestrial_gravities)
 generate_gas_giant = lambda parent : generate_planet(parent, [parent.snow_line, parent.outer_limit], giant_radii, giant_gravities)
 
-def generate_system(habitable_quota, terrestrial_quota, giant_quota, habitable_only=False, max_cycles=100):
-	star = generate_star(habitable_only)
+def generate_system(habitable_quota, terrestrial_quota, giant_quota, spectral_class=None, max_cycles=100):
+	star = generate_star(spectral_class)
 	
 	cycles = 0
 	count = 0
