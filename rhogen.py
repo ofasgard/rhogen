@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import generate
+import generate, markdown
 import argparse, json, sys
 
 parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -10,13 +10,14 @@ parser.add_argument("-G", "--giant", help="Desired number of gas giants to gener
 parser.add_argument("-c", "--spectral-class", help="Generate a star with a specific spectral class: A, F, G, K or M", type=str)
 parser.add_argument("-z", "--max-cycles", help="Maximum cycles to attempt for planet generation before giving up. [DEFAULT: 100]", type=int, default=100)
 parser.add_argument("-oJ", "--output-json", help="Path to save a JSON output file containing the generated system.", type=str)
+parser.add_argument("-oM", "--output-markdown", help="Path to save a MarkDown output file containing a report about the system.", type=str)
 args = parser.parse_args()
 
 def export_json(system):
 	return json.dumps(system, default=lambda x: x.__dict__)
 
 if __name__ == "__main__":
-	output_check = [x != None for x in [args.output_json]]
+	output_check = [x != None for x in [args.output_json, args.output_markdown]]
 	if not any(output_check):
 		print("You must specify at least one output type!")
 		sys.exit()
@@ -37,4 +38,13 @@ if __name__ == "__main__":
 		except OSError as e:
 			print("Failed to write system JSON to '%s': %s" % (args.output_json, str(e)))
 
+	if args.output_markdown != None:
+		markdowndata = markdown.export_star(system)
+		try:
+			fd = open(args.output_markdown, "w")
+			fd.write(markdowndata)
+			fd.close()
+			print("Successfully wrote MarkDown report to '%s'!" % args.output_markdown)
+		except OSError as e:
+			print("Failed to write MarkDown report to '%s': %s" % (args.output_markdown, str(e)))
 

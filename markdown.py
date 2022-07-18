@@ -36,8 +36,4 @@ def export_planet(planet):
 	year_length = round(planet.year_length, 1)
 	temperature_c = round(util.kelvin_to_celsius(planet.temperature), 1)
 	return planet_template.substitute(distance=distance_lm, radius=radius_km, mass=mass_kg, gravity=gravity, year=year_length, temperature=temperature_c, atmosphere=planet.atmosphere)
-	
-if __name__ == "__main__":
-	import generate
-	system = generate.generate_system(3, 3, 3)
-	print(export_star(system))
+
