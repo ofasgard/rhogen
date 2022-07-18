@@ -2,6 +2,7 @@
 
 import generate
 import argparse
+import json
 
 parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
 parser.add_argument("-H", "--habitable", help="Desired number of 'habitable' planets to generate. [DEFAULT: 1]", type=int, default=1)
@@ -11,9 +12,9 @@ parser.add_argument("-f", "--force-habitable", help="Only generate stars that ar
 parser.add_argument("-z", "--max-cycles", help="Maximum cycles to attempt for planet generation before giving up. [DEFAULT: 100]", type=int, default=100)
 args = parser.parse_args()
 
+def export_json(system):
+	return json.dumps(system, default=lambda x: x.__dict__)
+
 if __name__ == "__main__":
 	system = generate.generate_system(args.habitable, args.terrestrial, args.giant, habitable_only=args.force_habitable, max_cycles=args.max_cycles)
-	print(system.__dict__)
-	
-	for planet in system.planets:
-		print(planet.__dict__)
+	print(export_json(system))
