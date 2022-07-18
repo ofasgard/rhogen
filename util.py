@@ -1,3 +1,7 @@
+def kelvin_to_celsius(kelvin):
+	# convert temperatures in kelvin to degrees celsius
+	return kelvin - 273.15
+
 def km_to_au(km):
 	# convert kilometers to astronomical units
 	return km / 1.496e+8
@@ -5,6 +9,14 @@ def km_to_au(km):
 def au_to_km(au):
 	# convert astronomical units to kilometers
 	return au * 1.496e+8
+	
+def au_to_ls(au):
+	# convert astronomical units to light seconds
+	return au * 499.005
+	
+def au_to_lm(au):
+	# convert astronomical units to light minutes
+	return au_to_ls(au) / 60.0
 	
 def planetary_radius_to_km(radius_factor):
 	# convert a radius factor given in Terra units to kilometers
