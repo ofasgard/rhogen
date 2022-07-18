@@ -3,6 +3,6 @@ A star system generator inspired by the Worldbuilding guidelines from Atomic Roc
 
 Todo:
 
-- create a commandline interface with options for output in full JSON or "MarkDown report" format
+- add a markdown report output format
 - create some kind of graphical output
 - do a proper readme
