@@ -65,7 +65,7 @@ def generate_system(habitable_quota, terrestrial_quota, giant_quota, habitable_o
 		candidate = generate_habitable_planet(star)
 		result = star.add_planet(candidate)
 		cycles += 1
-		if result == True:
+		if result:
 			count += 1
 	
 	cycles = 0		
@@ -74,7 +74,7 @@ def generate_system(habitable_quota, terrestrial_quota, giant_quota, habitable_o
 		candidate = generate_terrestrial_planet(star)
 		result = star.add_planet(candidate)
 		cycles += 1
-		if result == True:
+		if result:
 			count += 1
 	cycles = 0		
 	count = 0
@@ -82,7 +82,7 @@ def generate_system(habitable_quota, terrestrial_quota, giant_quota, habitable_o
 		candidate = generate_gas_giant(star)
 		result = star.add_planet(candidate)
 		cycles += 1
-		if result == True:
+		if result:
 			count += 1
 
 	return star

@@ -52,7 +52,7 @@ class Planet:
 		# The approximate temperature can be calculated using the planet's greenhouse factor and albedo, as well as how much sunlight it receives.
 		# A planet with no atmosphere has a greenhouse factor of 0; the Earth has a greenhouse factor of 1.1
 		# The albedo of Earth is 0.3, and the albedo of Venus is 0.7
-		temperature = 374 * greenhouse_factor * (1 - albedo) * (self.sunlight ** 0.25)
+		temperature = 374.0 * greenhouse_factor * (1 - albedo) * (self.sunlight ** 0.25)
 		return temperature
 	def calculate_atmosphere(self):
 		# This is probably the most complex calculation; it involves calculating the planet's escape velocity (based on gravity).
