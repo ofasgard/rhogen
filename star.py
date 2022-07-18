@@ -53,4 +53,5 @@ class Star:
 				return False
 		# If all checks pass, add the planet.
 		self.planets.append(planet)
+		self.planets.sort(key=lambda x: x.distance)
 		return True		
