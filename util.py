@@ -1,3 +1,13 @@
+def integer_to_numeral(number):
+	# convert integers to roman numberals (for naming conventions)
+	numerals = {1000:'M', 900:'CM', 500:'D', 400:'CD', 100:'C', 90:'XC', 50:'L', 40:'XL', 10:'X', 9:'IX', 5:'V', 4:'IV', 1:'I'}
+	roman = ""
+	for key in numerals.keys():
+		count = int(number / key)
+		roman += numerals[key] * count
+		number -= key * count
+	return roman
+
 def kelvin_to_celsius(kelvin):
 	# convert temperatures in kelvin to degrees celsius
 	return kelvin - 273.15

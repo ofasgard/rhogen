@@ -1,3 +1,4 @@
+import util
 import math
 	
 class Star:
@@ -56,4 +57,10 @@ class Star:
 		# If all checks pass, add the planet.
 		self.planets.append(planet)
 		self.planets.sort(key=lambda x: x.distance)
-		return True		
+		return True	
+	def name_star(self, name):
+		self.name = name
+		planet_number = 1
+		for planet in self.planets:
+			planet.name = "%s %s" % (name, util.integer_to_numeral(planet_number))
+			planet_number += 1	
