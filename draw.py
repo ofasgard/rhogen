@@ -118,11 +118,4 @@ def draw_system(system, canvas_size):
 		ctx.show_text(planet.name)
 		ctx.new_path()
 
-	return surface
-	
-if __name__ == "__main__":
-	import generate
-	system = generate.generate_system(3,3,3)
-	system.name_star("Samarkand")
-	surface = draw_system(system, 1600)
-	surface.write_to_png("test.png")
+	return surface	

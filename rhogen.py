@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import generate, markdown
+import generate, markdown, draw
 import argparse, json, sys
 
 parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -12,13 +12,14 @@ parser.add_argument("-c", "--spectral-class", help="Generate a star with a speci
 parser.add_argument("-z", "--max-cycles", help="Maximum cycles to attempt for planet generation before giving up. [DEFAULT: 100]", type=int, default=100)
 parser.add_argument("-oJ", "--output-json", help="Path to save a JSON output file containing the generated system.", type=str)
 parser.add_argument("-oM", "--output-markdown", help="Path to save a MarkDown output file containing a report about the system.", type=str)
+parser.add_argument("-oI", "--output-image", help="Path to save an image representation of the generated system.", type=str)
 args = parser.parse_args()
 
 def export_json(system):
 	return json.dumps(system, default=lambda x: x.__dict__)
 
 if __name__ == "__main__":
-	output_check = [x != None for x in [args.output_json, args.output_markdown]]
+	output_check = [x != None for x in [args.output_json, args.output_markdown, args.output_image]]
 	if not any(output_check):
 		print("You must specify at least one output type!")
 		sys.exit()
@@ -51,4 +52,12 @@ if __name__ == "__main__":
 			print("Successfully wrote MarkDown report to '%s'!" % args.output_markdown)
 		except OSError as e:
 			print("Failed to write MarkDown report to '%s': %s" % (args.output_markdown, str(e)))
+			
+	if args.output_image != None:
+		try:
+			surface = draw.draw_system(system, 1600)
+			surface.write_to_png(args.output_image)
+			print("Successfully wrote image to '%s'!" % args.output_image)
+		except OSError as e:
+			print("Failed to write image to '%s': %s" % (args.output_image, str(e)))
 
