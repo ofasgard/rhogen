@@ -1,13 +1,6 @@
 import util
 import cairo, math
 	
-def get_system_size(system):
-	# get the diameter of a system in AU by finding the furthest planet and adding 10%
-	distances = [planet.distance for planet in system.planets]
-	min_distance = min(distances)
-	max_distance = max(distances)
-	return [min_distance, max_distance]
-	
 def get_star_color(system):
 	pattern = cairo.RadialGradient(0.5, 0.5, 0.003, 0.5, 0.5, 0.03)
 	pattern.add_color_stop_rgb(1.0, 0, 0, 0)
