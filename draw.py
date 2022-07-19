@@ -35,9 +35,9 @@ def get_orbit_radius(system, planet):
 	return size_increment * (system.planets.index(planet) + 1)
 
 def get_planet_radius(planet):
-	radius = planet.radius * 0.005
-	radius = max(radius, 0.003)
-	radius = min(radius, 0.02)
+	radius = planet.radius * 0.01
+	radius = max(radius, 0.005)
+	radius = min(radius, 0.025)
 	return radius
 	
 def draw_system(system, canvas_size):
@@ -83,6 +83,6 @@ def draw_system(system, canvas_size):
 	
 if __name__ == "__main__":
 	import generate
-	system = generate.generate_system(3,3,3, spectral_class="A")
+	system = generate.generate_system(3,3,3)
 	surface = draw_system(system, 1600)
 	surface.write_to_png("test.png")
