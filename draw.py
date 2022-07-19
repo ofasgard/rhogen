@@ -4,8 +4,9 @@ import cairo, math
 def get_system_size(system):
 	# get the diameter of a system in AU by finding the furthest planet and adding 10%
 	distances = [planet.distance for planet in system.planets]
+	min_distance = min(distances)
 	max_distance = max(distances)
-	return max_distance + (max_distance / 10.0)
+	return [min_distance, max_distance]
 	
 def get_star_color(system):
 	if system.spectral_class == "A":
@@ -19,6 +20,25 @@ def get_star_color(system):
 	if system.spectral_class == "M":
 		return [1, 0, 0]
 	raise ValueError("Unrecognised spectral class!")
+	
+def get_orbit_radius(system, planet):
+	# get the radius of a planet's orbit as a proportion of the canvas size
+	# converts distances into log distances
+	sizes = get_system_size(system)
+	sizes_km = [util.au_to_km(size) for size in sizes]
+	distance_km = util.au_to_km(planet.distance)
+	
+	min_size_log = math.log(sizes_km[0], 10)
+	max_size_log = math.log(sizes_km[1], 10)
+	distance_log = math.log(distance_km, 10)
+	
+	# log distance needs to be mapped onto a value between 0.05 and 0.5
+	distance_span = max_size_log - min_size_log
+	radius_span = 0.5 - 0.05
+	
+	scale_value = float(distance_log - min_size_log) / float(distance_span)
+	return 0.05 + (scale_value * radius_span)
+
 	
 def draw_system(system, canvas_size):
 	# initialise surface
@@ -36,6 +56,12 @@ def draw_system(system, canvas_size):
 	ctx.arc(0.5, 0.5, 0.01, 0, 2*math.pi)
 	ctx.fill()
 	ctx.stroke()
+	# draw orbits
+	for planet in system.planets:
+		radius = get_orbit_radius(system, planet)
+		ctx.set_line_width(0.001)
+		ctx.arc(0.5, 0.5, radius, 0, 2*math.pi)
+		ctx.stroke()
 
 	
 	return surface
@@ -43,5 +69,5 @@ def draw_system(system, canvas_size):
 if __name__ == "__main__":
 	import generate
 	system = generate.generate_system(3,3,3)
-	surface = draw_system(system, 1200)
+	surface = draw_system(system, 1600)
 	surface.write_to_png("test.png")
