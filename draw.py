@@ -71,6 +71,13 @@ def draw_system(system, canvas_size):
 	ctx.set_source_rgb(0, 0, 0)
 	ctx.rectangle(0, 0, 1, 1)
 	ctx.fill()
+	# system label
+	ctx.set_source_rgb(1,1,1)
+	ctx.set_font_size(0.02)
+	ctx.select_font_face("Arial", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_BOLD)
+	ctx.move_to(0.01, 0.02)
+	ctx.show_text("%s System" % system.name)
+	ctx.new_path()
 	# draw star
 	pattern = get_star_color(system)
 	ctx.set_source(pattern)
