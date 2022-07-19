@@ -48,12 +48,21 @@ def draw_system(system, canvas_size):
 	ctx.arc(0.5, 0.5, 0.01, 0, 2*math.pi)
 	ctx.fill()
 	ctx.stroke()
-	# draw orbits
+	# planets
 	for planet in system.planets:
+		# orbits
 		radius = get_orbit_radius(system, planet)
 		ctx.set_line_width(0.001)
 		ctx.arc(0.5, 0.5, radius, 0, 2*math.pi)
 		ctx.stroke()
+		ctx.new_path()
+		# orbital labels
+		ctx.move_to(0.5, 0.51 + radius)
+		ctx.set_font_size(0.01)
+		ctx.select_font_face("Arial", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL)
+		ctx.show_text("%s AU" % round(planet.distance, 2))
+		ctx.new_path()
+
 	return surface
 	
 if __name__ == "__main__":
