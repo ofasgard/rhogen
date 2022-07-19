@@ -19,7 +19,7 @@ def get_star_color(system):
 	if system.spectral_class == "G":
 		pattern.add_color_stop_rgb(0.2, 1, 0.98, 0)
 	if system.spectral_class == "K":
-		pattern.add_color_stop_rgb(0.2, 1, 0.68, 0)
+		pattern.add_color_stop_rgb(0.2, 0.95, 0.65, 0)
 	if system.spectral_class == "M":
 		pattern.add_color_stop_rgb(0.2, 1, 0, 0)
 	return pattern
