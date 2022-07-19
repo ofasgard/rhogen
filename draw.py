@@ -48,9 +48,9 @@ def get_orbit_radius(system, planet):
 	return size_increment * (system.planets.index(planet) + 1)
 
 def get_planet_radius(planet):
-	if planet.radius < 0.5:
+	if planet.radius <= 0.5:
 		return 0.005
-	elif planet.radius < 2.0:
+	elif planet.radius <= 2.0:
 		return 0.01
 	else:
 		return 0.023
