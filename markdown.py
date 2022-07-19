@@ -12,7 +12,7 @@ star_template = string.Template("""
 planet_template = string.Template("""
 ## $name
 
-**Distance**: $distance light-minutes  
+**Distance**: $distance AU  
 **Radius**: $radius km  
 **Mass**: $mass kg  
 **Gravity**: $gravity g  
@@ -29,11 +29,11 @@ def export_star(star):
 	return output
 
 def export_planet(planet):
-	distance_lm = round(util.au_to_lm(planet.distance), 4)
+	distance_au = round(planet.distance, 2)
 	radius_km = int(round(util.planetary_radius_to_km(planet.radius), 0))
 	mass_kg = util.planetary_mass_to_kg(planet.mass)
 	gravity = round(planet.gravity, 2)
 	year_length = round(planet.year_length, 1)
 	temperature_c = round(util.kelvin_to_celsius(planet.temperature), 1)
-	return planet_template.substitute(name=planet.name, distance=distance_lm, radius=radius_km, mass=mass_kg, gravity=gravity, year=year_length, temperature=temperature_c, atmosphere=planet.atmosphere)
+	return planet_template.substitute(name=planet.name, distance=distance_au, radius=radius_km, mass=mass_kg, gravity=gravity, year=year_length, temperature=temperature_c, atmosphere=planet.atmosphere)
 
