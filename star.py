@@ -49,8 +49,9 @@ class Star:
 		if planet.distance > self.outer_limit:
 			return False
 		# If two planets are closer than the larger planet's roche limit, then the smaller planet will be torn apart.
+		# We add 0.1 AU to the roche limit, just to be safe.
 		for existing_planet in self.planets:
-			roche_limit = max(existing_planet.roche_limit, planet.roche_limit)
+			roche_limit = max(existing_planet.roche_limit, planet.roche_limit) + 0.1
 			distance = abs(planet.distance - existing_planet.distance)
 			if distance < roche_limit:
 				return False

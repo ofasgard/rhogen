@@ -28,9 +28,9 @@ def get_orbit_radius(system, planet):
 	sizes_km = [util.au_to_km(size) for size in sizes]
 	distance_km = util.au_to_km(planet.distance)
 	
-	min_size_log = math.log(sizes_km[0], 10)
-	max_size_log = math.log(sizes_km[1], 10)
-	distance_log = math.log(distance_km, 10)
+	min_size_log = math.log(sizes_km[0], 2)
+	max_size_log = math.log(sizes_km[1], 2)
+	distance_log = math.log(distance_km, 2)
 	
 	# log distance needs to be mapped onto a value between 0.05 and 0.5
 	distance_span = max_size_log - min_size_log
@@ -68,6 +68,6 @@ def draw_system(system, canvas_size):
 	
 if __name__ == "__main__":
 	import generate
-	system = generate.generate_system(3,3,3)
+	system = generate.generate_system(3,3,3, spectral_class="A")
 	surface = draw_system(system, 1600)
 	surface.write_to_png("test.png")
