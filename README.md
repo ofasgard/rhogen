@@ -3,7 +3,6 @@ A star system generator inspired by the Worldbuilding guidelines from Atomic Roc
 
 Todo:
 
-- enforce a slightly larger "clearance zone" between planets
 - create some kind of graphical output
 - do a proper readme
 

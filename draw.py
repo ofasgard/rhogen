@@ -79,12 +79,20 @@ def draw_system(system, canvas_size):
 		ctx.arc(planet_x, planet_y, get_planet_radius(planet), 0, 2*math.pi)
 		ctx.fill()
 		ctx.stroke()
-		
+		# planetary labels
+		planet_label_x = planet_x
+		planet_label_y = planet_y + 0.03
+		ctx.move_to(planet_label_x, planet_label_y)
+		ctx.set_font_size(0.007)
+		ctx.select_font_face("Arial", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL)
+		ctx.show_text(planet.name)
+		ctx.new_path()
 
 	return surface
 	
 if __name__ == "__main__":
 	import generate
 	system = generate.generate_system(3,3,3)
+	system.name_star("Samarkand")
 	surface = draw_system(system, 1600)
 	surface.write_to_png("test.png")
