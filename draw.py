@@ -9,17 +9,20 @@ def get_system_size(system):
 	return [min_distance, max_distance]
 	
 def get_star_color(system):
+	pattern = cairo.RadialGradient(0.5, 0.5, 0.003, 0.5, 0.5, 0.03)
+	pattern.add_color_stop_rgb(1.0, 0, 0, 0)
+	
 	if system.spectral_class == "A":
-		return [1,1,1]
+		pattern.add_color_stop_rgb(0.2, 1, 1, 1)
 	if system.spectral_class == "F":
-		return [1, 1, 0.6]
+		pattern.add_color_stop_rgb(0.2, 1, 1, 0.6)
 	if system.spectral_class == "G":
-		return [1, 0.98, 0]
+		pattern.add_color_stop_rgb(0.2, 1, 0.98, 0)
 	if system.spectral_class == "K":
-		return [1, 0.68, 0]
+		pattern.add_color_stop_rgb(0.2, 1, 0.68, 0)
 	if system.spectral_class == "M":
-		return [1, 0, 0]
-	raise ValueError("Unrecognised spectral class!")
+		pattern.add_color_stop_rgb(0.2, 1, 0, 0)
+	return pattern
 	
 def get_orbit_radius(system, planet):
 	# returns the size of each orbit as a proportion of the canvas size (not to scale)
@@ -32,7 +35,10 @@ def get_orbit_radius(system, planet):
 	return size_increment * (system.planets.index(planet) + 1)
 
 def get_planet_radius(planet):
-	return min(planet.radius * 0.005, 0.02)
+	radius = planet.radius * 0.005
+	radius = max(radius, 0.003)
+	radius = min(radius, 0.02)
+	return radius
 	
 def draw_system(system, canvas_size):
 	# initialise surface
@@ -44,8 +50,8 @@ def draw_system(system, canvas_size):
 	ctx.rectangle(0, 0, 1, 1)
 	ctx.fill()
 	# draw star
-	color = get_star_color(system)
-	ctx.set_source_rgb(color[0], color[1], color[2])
+	pattern = get_star_color(system)
+	ctx.set_source(pattern)
 	ctx.set_line_width(0.01)
 	ctx.arc(0.5, 0.5, 0.03, 0, 2*math.pi)
 	ctx.fill()
@@ -77,6 +83,6 @@ def draw_system(system, canvas_size):
 	
 if __name__ == "__main__":
 	import generate
-	system = generate.generate_system(3,3,3)
+	system = generate.generate_system(3,3,3, spectral_class="A")
 	surface = draw_system(system, 1600)
 	surface.write_to_png("test.png")
