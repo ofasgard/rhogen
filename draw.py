@@ -24,6 +24,26 @@ def get_star_color(system):
 		pattern.add_color_stop_rgb(0.2, 1, 0, 0)
 	return pattern
 	
+def get_planet_color(planet, x, y):
+	radius = get_planet_radius(planet)
+	pattern = cairo.RadialGradient(x, y, (radius / 10), x, y, radius)
+	pattern.add_color_stop_rgb(1.0, 0, 0, 0)
+	if planet.atmosphere == "thin":
+		pattern.add_color_stop_rgb(0.8, 0.4, 0.4, 0.4)
+	if planet.atmosphere == "inert":
+		pattern.add_color_stop_rgb(0.8, 0.9, 0.9, 0.9)
+	if planet.atmosphere == "breathable":
+		pattern.add_color_stop_rgb(0.8, 0.2, 0.3, 0.9)
+	if planet.atmosphere == "dense":
+		pattern.add_color_stop_rgb(0.8, 0.70, 0.3, 0.3)
+	if planet.atmosphere == "corrosive":
+		pattern.add_color_stop_rgb(0.8, 0.3, 1.0, 0.3)
+	if planet.atmosphere == "gas giant":
+		pattern.add_color_stop_rgb(0.8, 1.0, 0.5, 0.5)
+	if planet.atmosphere == "ice giant":
+		pattern.add_color_stop_rgb(0.8, 0.7, 0.7, 1.0)
+	return pattern
+	
 def get_orbit_radius(system, planet):
 	# returns the size of each orbit as a proportion of the canvas size (not to scale)
 	# divides the available room (between 0.05 and 0.5) into equal segments based on how many planets there are
@@ -76,14 +96,17 @@ def draw_system(system, canvas_size):
 		# planets
 		planet_x = 0.5 + radius
 		planet_y = 0.5
+		pattern = get_planet_color(planet, planet_x, planet_y)
+		ctx.set_source(pattern)
 		ctx.arc(planet_x, planet_y, get_planet_radius(planet), 0, 2*math.pi)
 		ctx.fill()
 		ctx.stroke()
 		# planetary labels
+		ctx.set_source_rgb(1,1,1)
 		planet_label_x = planet_x
 		planet_label_y = planet_y + 0.03
 		ctx.move_to(planet_label_x, planet_label_y)
-		ctx.set_font_size(0.007)
+		ctx.set_font_size(0.0065)
 		ctx.select_font_face("Arial", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL)
 		ctx.show_text(planet.name)
 		ctx.new_path()
