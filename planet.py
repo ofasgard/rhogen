@@ -43,7 +43,7 @@ class Planet:
 		hill_radius = self.distance * ((mass_kg / (stellar_mass_kg * 3.0)) ** (1/3))
 		return hill_radius
 	def calculate_year_length(self, stellar_mass):
-		# The length a year is a factor of the star's mass (and thus gravity) and of the planet's distance from it.
+		# The length of a year is a factor of the star's mass (and thus gravity) and of the planet's distance from it.
 		year_length = math.sqrt(self.distance ** 3 / stellar_mass)
 		return year_length * 365
 	def calculate_sunlight(self, stellar_luminosity):
@@ -58,7 +58,7 @@ class Planet:
 		return temperature
 	def calculate_atmosphere(self):
 		# This is probably the most complex calculation; it involves calculating the planet's escape velocity (based on gravity).
-		# You can then use this to figure out which gases the planet can hold onto; if it can only hold onto light gases, the atmosphere is thin.
+		# You can then use this to figure out which gases the planet can hold onto; if it can only hold onto heavier gases, the atmosphere is thin.
 		escape_constant = 2.365 * (10 ** -5)
 		meter_radius = util.planetary_radius_to_m(self.radius)
 		density_factor = (self.radius ** 3) / self.mass
