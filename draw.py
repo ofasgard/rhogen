@@ -35,10 +35,12 @@ def get_orbit_radius(system, planet):
 	return size_increment * (system.planets.index(planet) + 1)
 
 def get_planet_radius(planet):
-	radius = planet.radius * 0.01
-	radius = max(radius, 0.005)
-	radius = min(radius, 0.025)
-	return radius
+	if planet.radius < 0.5:
+		return 0.005
+	elif planet.radius < 2.0:
+		return 0.01
+	else:
+		return 0.023
 	
 def draw_system(system, canvas_size):
 	# initialise surface
