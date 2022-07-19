@@ -31,6 +31,8 @@ def get_orbit_radius(system, planet):
 	size_increment = size_spread / planet_count
 	return size_increment * (system.planets.index(planet) + 1)
 
+def get_planet_radius(planet):
+	return min(planet.radius * 0.005, 0.02)
 	
 def draw_system(system, canvas_size):
 	# initialise surface
@@ -43,25 +45,33 @@ def draw_system(system, canvas_size):
 	ctx.fill()
 	# draw star
 	color = get_star_color(system)
-	ctx.set_source_rgb(color[0], color[1], color[2])  # Solid color
+	ctx.set_source_rgb(color[0], color[1], color[2])
 	ctx.set_line_width(0.01)
-	ctx.arc(0.5, 0.5, 0.01, 0, 2*math.pi)
+	ctx.arc(0.5, 0.5, 0.03, 0, 2*math.pi)
 	ctx.fill()
 	ctx.stroke()
-	# planets
+	# now for the orbits and planets
 	for planet in system.planets:
 		# orbits
+		ctx.set_source_rgb(1,1,1)
 		radius = get_orbit_radius(system, planet)
 		ctx.set_line_width(0.001)
 		ctx.arc(0.5, 0.5, radius, 0, 2*math.pi)
 		ctx.stroke()
 		ctx.new_path()
 		# orbital labels
-		ctx.move_to(0.5, 0.51 + radius)
+		ctx.move_to(0.49, 0.51 + radius)
 		ctx.set_font_size(0.01)
 		ctx.select_font_face("Arial", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL)
 		ctx.show_text("%s AU" % round(planet.distance, 2))
 		ctx.new_path()
+		# planets
+		planet_x = 0.5 + radius
+		planet_y = 0.5
+		ctx.arc(planet_x, planet_y, get_planet_radius(planet), 0, 2*math.pi)
+		ctx.fill()
+		ctx.stroke()
+		
 
 	return surface
 	
