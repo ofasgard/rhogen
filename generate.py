@@ -45,8 +45,15 @@ def generate_star(spectral_class=None):
 	return Star(result, star_class["description"], luminosity, mass)
 	
 def generate_planet(parent_star, distance_range, radius_range, gravity_range):	
-	# distance is independent
-	distance = round(random.uniform(distance_range[0], distance_range[1]), 4)
+	# per artifexian, the ratio of stable orbits between adjacent planets tends to be 1.4-2.0
+	possible_distances = [distance_range[0]]
+	while True:
+		next_distance = possible_distances[-1] * 1.4
+		if next_distance > distance_range[1]:
+			break
+		else:
+			possible_distances.append(next_distance)
+	distance = random.choice(possible_distances)	
 	# radius and gravity are related to each other
 	planet_factor = round(random.uniform(0.01, 1.00), 4)
 	radius = round(radius_range[0] + ((radius_range[1] - radius_range[0]) * planet_factor), 4)
