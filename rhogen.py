@@ -12,7 +12,7 @@ parser.add_argument("-c", "--spectral-class", help="Generate a star with a speci
 parser.add_argument("-z", "--max-cycles", help="Maximum cycles to attempt for planet generation before giving up. [DEFAULT: 100]", type=int, default=100)
 parser.add_argument("-oJ", "--output-json", help="Path to save a JSON output file containing the generated system.", type=str)
 parser.add_argument("-oM", "--output-markdown", help="Path to save a MarkDown output file containing a report about the system.", type=str)
-parser.add_argument("-oI", "--output-image", help="Path to save an image representation of the generated system.", type=str)
+parser.add_argument("-oI", "--output-image", help="Path to save a PNG diagram of the generated system.", type=str)
 args = parser.parse_args()
 
 def export_json(system):
