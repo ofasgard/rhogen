@@ -23,7 +23,8 @@ planet_template = string.Template("""
 
 def export_star(star):
 	mass_kg = util.stellar_mass_to_kg(star.mass)
-	output = star_template.substitute(name=star.name, sc=star.spectral_class, description=star.description, luminosity=star.luminosity, mass=mass_kg)
+	mass_rounded = '{:0.3e}'.format(mass_kg)
+	output = star_template.substitute(name=star.name, sc=star.spectral_class, description=star.description, luminosity=star.luminosity, mass=mass_rounded)
 	for planet in star.planets:
 		output += export_planet(planet)
 	return output
