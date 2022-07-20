@@ -71,29 +71,30 @@ generate_gas_giant = lambda parent : generate_planet(parent, [parent.snow_line, 
 def generate_system(habitable_quota, terrestrial_quota, giant_quota, spectral_class=None, max_cycles=100):
 	star = generate_star(spectral_class)
 	
-	cycles = 0
 	count = 0
-	while count < habitable_quota and cycles < max_cycles:
+	for i in range(max_cycles):
+		if count >= habitable_quota:
+			break
 		candidate = generate_habitable_planet(star)
 		result = star.add_planet(candidate)
-		cycles += 1
 		if result:
 			count += 1
 	
-	cycles = 0		
 	count = 0
-	while count < terrestrial_quota and cycles < max_cycles:
+	for i in range(max_cycles):
+		if count >= terrestrial_quota:
+			break
 		candidate = generate_terrestrial_planet(star)
 		result = star.add_planet(candidate)
-		cycles += 1
 		if result:
 			count += 1
-	cycles = 0		
+
 	count = 0
-	while count < giant_quota and cycles < max_cycles:
+	for i in range(max_cycles):
+		if count >= giant_quota:
+			break
 		candidate = generate_gas_giant(star)
 		result = star.add_planet(candidate)
-		cycles += 1
 		if result:
 			count += 1
 
