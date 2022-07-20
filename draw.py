@@ -136,5 +136,12 @@ def draw_system(system, canvas_size):
 		ctx.arc(0.5, 0.5, radius, 0, 2*math.pi)
 		ctx.stroke()
 		ctx.new_path()
+		# belt labels
+		ctx.move_to(0.49, 0.51 + radius)
+		ctx.set_font_size(0.01)
+		ctx.select_font_face("Arial", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL)
+		ctx.show_text("%s AU" % round(belt, 2))
+		ctx.new_path()
+		
 
 	return surface	
