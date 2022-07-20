@@ -46,14 +46,18 @@ def generate_star(spectral_class=None):
 	
 def generate_planet(parent_star, distance_range, radius_range, gravity_range):	
 	# per artifexian, the ratio of stable orbits between adjacent planets tends to be 1.4-2.0
-	possible_distances = [distance_range[0]]
+	if len(parent_star.planets) > 0:
+		possible_orbits = [ parent_star.planets[0].distance ]
+	else:
+		possible_orbits = [ parent_star.inner_limit ]
 	while True:
-		next_distance = possible_distances[-1] * 1.4
-		if next_distance > distance_range[1]:
+		next_orbit = possible_orbits[-1] * 1.4
+		if next_orbit > parent_star.outer_limit:
 			break
 		else:
-			possible_distances.append(next_distance)
-	distance = random.choice(possible_distances)	
+			possible_orbits.append(next_orbit)
+	valid_orbits = [x for x in possible_orbits if (x >= distance_range[0]) and (x <= distance_range[1])]
+	distance = random.choice(valid_orbits)	
 	# radius and gravity are related to each other
 	planet_factor = round(random.uniform(0.01, 1.00), 4)
 	radius = round(radius_range[0] + ((radius_range[1] - radius_range[0]) * planet_factor), 4)
