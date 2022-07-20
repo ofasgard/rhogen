@@ -23,6 +23,8 @@ class Star:
 		self.snow_line = self.calculate_snow_line()
 		"Planets: a list of Planet objects which are in orbit around this star."
 		self.planets = []
+		"Asteroid Belts: a list of distances (in AU) that represent asteroid belts in orbit around this star."
+		self.belts = []
 	def calculate_inner_limit(self):
 		# The star's inner limit is determined by either luminosity or gravity, whichever is higher.
 		gravity_limit = 0.2 * self.mass
@@ -54,10 +56,36 @@ class Star:
 			distance = abs(planet.distance - existing_planet.distance)
 			if distance < roche_limit:
 				return False
+		# The same goes for asteroid belts.
+		for belt_radius in self.belts:
+			distance = abs(planet.distance - belt_radius)
+			if distance < planet.roche_limit:
+				return False
 		# If all checks pass, add the planet.
 		self.planets.append(planet)
 		self.planets.sort(key=lambda x: x.distance)
 		return True	
+	def add_belt(self, radius):
+		# Add an asteroid belt to a star. Returns True if successful, or False if it isn't allowed.
+		# The belt must be within the star's inner and outer limits.
+		if radius < self.inner_limit:
+			return False
+		if radius > self.outer_limit:
+			return False
+		# The belt cannot be wtihin another planet's roche limit.
+		for planet in self.planets:
+			distance = abs(radius - planet.distance)
+			if distance < planet.roche_limit:
+				return False
+		# The belt cannot be within 0.1 AU of another belt.
+		for existing_belt in self.belts:
+			distance = abs(radius - existing_belt)
+			if distance < 0.1:
+				return False
+		# If all checks pass, add the belt.
+		self.belts.append(radius)
+		self.belts.sort()
+		return True
 	def name_star(self, name):
 		self.name = name
 		planet_number = 1

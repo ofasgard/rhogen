@@ -7,6 +7,7 @@ parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.R
 parser.add_argument("-H", "--habitable", help="Desired number of 'habitable' planets to generate. [DEFAULT: 1]", type=int, default=1)
 parser.add_argument("-T", "--terrestrial", help="Desired number of terrestrial planets to generate. [DEFAULT: 3]", type=int, default=3)
 parser.add_argument("-G", "--giant", help="Desired number of gas giants to generate. [DEFAULT: 2]", type=int, default=2)
+parser.add_argument("-B", "--belts", help="Desired number of asteroid belts to generate. [DEFAULT: 1]", type=int, default=1)
 parser.add_argument("-n", "--name", help="Give a name to the star and its planets.", type=str)
 parser.add_argument("-c", "--spectral-class", help="Generate a star with a specific spectral class: A, F, G, K or M", type=str)
 parser.add_argument("-z", "--max-cycles", help="Maximum cycles to attempt for planet generation before giving up. [DEFAULT: 100]", type=int, default=100)
@@ -28,7 +29,7 @@ if __name__ == "__main__":
 		print("Only the following spectral classes are supported: A, F, G, K or M.")
 		sys.exit()
 
-	system = generate.generate_system(args.habitable, args.terrestrial, args.giant, spectral_class=args.spectral_class, max_cycles=args.max_cycles)
+	system = generate.generate_system(args.habitable, args.terrestrial, args.giant, args.belts, spectral_class=args.spectral_class, max_cycles=args.max_cycles)
 	
 	if args.name != None:
 		system.name_star(args.name)

@@ -63,7 +63,7 @@ generate_habitable_planet = lambda parent : generate_planet(parent, parent.habit
 generate_terrestrial_planet = lambda parent : generate_planet(parent, [parent.inner_limit, parent.snow_line], terrestrial_radii, terrestrial_gravities)
 generate_gas_giant = lambda parent : generate_planet(parent, [parent.snow_line, parent.outer_limit], giant_radii, giant_gravities)
 
-def generate_system(habitable_quota, terrestrial_quota, giant_quota, spectral_class=None, max_cycles=100):
+def generate_system(habitable_quota, terrestrial_quota, giant_quota, belt_quota, spectral_class=None, max_cycles=100):
 	star = generate_star(spectral_class)
 	
 	count = 0
@@ -88,6 +88,14 @@ def generate_system(habitable_quota, terrestrial_quota, giant_quota, spectral_cl
 			break
 		candidate = generate_gas_giant(star)
 		if star.add_planet(candidate):
+			count += 1
+			
+	count = 0
+	for i in range(max_cycles):
+		if count >= belt_quota:
+			break
+		candidate = random.choice(get_possible_orbits(star))
+		if star.add_belt(candidate):
 			count += 1
 
 	return star
