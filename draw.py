@@ -52,7 +52,11 @@ def get_orbit_radius(system, planet):
 def get_belt_radius(system, belt):
 	smaller_radii = [planet for planet in system.planets if planet.distance < belt]
 	larger_radii = [planet for planet in system.planets if planet.distance > belt]
-	if len(larger_radii) == 0:
+	if len(smaller_radii) == 0:
+		# if the belt is the smallest radius
+		lower_bound = 0.05
+		upper_bound =  get_orbit_radius(system, larger_radii[0])
+	elif len(larger_radii) == 0:
 		# if the belt is the biggest radius
 		lower_bound = get_orbit_radius(system, smaller_radii[-1])
 		upper_bound = 0.5
