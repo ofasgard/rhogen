@@ -25,12 +25,13 @@ class Planet:
 		self.temperature = self.calculate_temperature()
 		"Atmosphere: what kind of atmosphere does this planet have, if any?"
 		self.atmosphere = self.calculate_atmosphere()
-		
 		# Relcalculate temperatures
 		if self.atmosphere == "thin":
 			self.temperature = self.calculate_temperature(greenhouse_factor=0.8)
 		if self.atmosphere == "dense":
 			self.temperature = self.calculate_temperature(greenhouse_factor=1.4)
+		"Biosphere: what kind of biosphere does this planet have, if any?"
+		self.biosphere = self.calculate_biosphere()
 	def calculate_mass(self):
 		# The mass of a planet can be calculated using its radius and gravity, inferring its density.
 		mass = self.gravity * (self.radius ** 2)
@@ -86,4 +87,14 @@ class Planet:
 			return "thin"
 		# Otherwise, this is a standard kind of terrestrial planet that could have a range of atmospheres.
 		return random.choice(["thin", "breathable", "inert", "dense", "corrosive"])
-
+	def calculate_biosphere(self):
+		possible_biospheres = {
+			"thin": ["none", "remnant"],
+			"inert": ["none", "microbial", "remnant", "alien"],
+			"dense": ["none", "microbial", "remnant", "alien"],
+			"corrosive": ["none", "microbial", "remnant", "alien"],
+			"breathable": ["microbial", "remnant", "alien"],
+			"gas giant": ["none"],
+			"ice giant": ["none"]
+		}
+		return random.choice(possible_biospheres[self.atmosphere])
