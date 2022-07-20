@@ -48,6 +48,19 @@ def get_orbit_radius(system, planet):
 	size_spread = max_size - min_size
 	size_increment = size_spread / planet_count
 	return size_increment * (system.planets.index(planet) + 1)
+	
+def get_belt_radius(system, belt):
+	smaller_radii = [planet for planet in system.planets if planet.distance < belt]
+	larger_radii = [planet for planet in system.planets if planet.distance > belt]
+	if len(larger_radii) == 0:
+		# if the belt is the biggest radius
+		lower_bound = get_orbit_radius(system, smaller_radii[-1])
+		upper_bound = 0.5
+	else:
+		# if the belt is between two radii
+		lower_bound = get_orbit_radius(system, smaller_radii[-1])
+		upper_bound = get_orbit_radius(system, larger_radii[0])
+	return (lower_bound + upper_bound) / 2.0
 
 def get_planet_radius(planet):
 	if planet.radius <= 0.5:
@@ -112,6 +125,16 @@ def draw_system(system, canvas_size):
 		ctx.set_font_size(0.0065)
 		ctx.select_font_face("Arial", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL)
 		ctx.show_text(planet.name)
+		ctx.new_path()
+	# now for asteroid belts
+	for belt in system.belts:
+		# belts
+		ctx.set_source_rgb(0.7,0.3,0.3)
+		radius = get_belt_radius(system, belt)
+		ctx.set_line_width(0.001)
+		ctx.set_dash([0.005, 0.015], 0)
+		ctx.arc(0.5, 0.5, radius, 0, 2*math.pi)
+		ctx.stroke()
 		ctx.new_path()
 
 	return surface	
