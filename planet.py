@@ -63,7 +63,13 @@ class Planet:
 		temperature = 374.0 * greenhouse_factor * (1 - albedo) * (self.sunlight ** 0.25)
 		return temperature
 	def calculate_atmosphere(self):
-		# This is probably the most complex calculation; it involves calculating the planet's escape velocity (based on gravity).
+		# First, check whether it is a gas/ice giant based on size, and whether it's beyond the system's snow or liquid hydrogen lines.
+		if (self.radius >= 2.0) and (self.mass >= 3.5):
+			if (self.sunlight <= 0.00251):
+				return "ice giant"
+			if (self.sunlight <= 0.041):
+				return "gas giant"
+		# Next is probably the most complex calculation; it involves calculating the planet's escape velocity (based on gravity).
 		# You can then use this to figure out which gases the planet can hold onto; if it can only hold onto heavier gases, the atmosphere is thin.
 		escape_constant = 2.365 * (10 ** -5)
 		meter_radius = util.planetary_radius_to_m(self.radius)
@@ -78,11 +84,6 @@ class Planet:
 		if nitrogen_velocity >= jeans_escape_velocity:
 			# The planet cannot hold onto nitrogen; it has only a thin atmosphere.
 			return "thin"
-		# Next we check whether the planet is beyond the system's snow line (gas giant) or liquid hydrogen line (ice giant).
-		if (self.sunlight < 0.0025):
-			return "ice giant"
-		if (self.sunlight < 0.04):
-			return "gas giant"
 		# Otherwise, this is a standard kind of terrestrial planet that could have a range of atmospheres.
 		return random.choice(["thin", "breathable", "inert", "dense", "corrosive"])
 
