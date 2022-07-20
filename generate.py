@@ -1,16 +1,9 @@
-from star import Star
+from star import Star, SpectralClass
 from planet import Planet
 import random
 
 # The vast majority of the data and equations used by this tool come from the "Worldbuilding" page on the Atomic Rockets website.
 # For more information, see: http://www.projectrho.com/public_html/rocket/worldbuilding.php
-
-star_classes = {}
-star_classes["A"] = {"description": "White hue, very bright and hot. Chance for life is very low.", "habitable": False, "luminosity": (14.0, 64.0), "mass": (1.75, 2.18)}
-star_classes["F"] = {"description": "Yellow-white hue, brighter and warmer than Sol. Reasonable chance of supporting life.", "habitable": True, "luminosity": (2.4, 8.5), "mass": (1.13, 1.61)}
-star_classes["G"] = {"description": "Yellow hue, similar to Sol in luminosity. Chances for life are good.", "habitable": True, "luminosity": (0.61, 1.4), "mass": (0.9, 1.06)}
-star_classes["K"] = {"description": "Orange hue, cooler than Sol but with lots of sterilising radiation.", "habitable": True, "luminosity": (0.11, 0.41), "mass": (0.59, 0.88)}
-star_classes["M"] = {"description": "Red hue, a very dim and cool star. Chance for life is very low.", "habitable": False, "luminosity": (0.0015, 0.061), "mass": (0.08, 0.45)}
 
 star_table = [
 	(9, "A"),
@@ -33,16 +26,14 @@ def generate_star(spectral_class=None):
 	if spectral_class == None:
 		# if spectral class was not specified, roll on the star table
 		roll = random.randint(1, 100)
-		result = next(x[1] for x in star_table if roll <= x[0])
-	else:
-		# otherwise, use specified class
-		result = spectral_class
-	star_class = star_classes[result]
+		spectral_class = next(x[1] for x in star_table if roll <= x[0])
+	star_class = SpectralClass[spectral_class]
+	star_info = star_class.value
 	# generate a random number between 0.01 and 1.00 to use as a factor for the star's luminosity and mass
 	star_factor = round(random.uniform(0.01, 1.00), 4)
-	luminosity = round(star_class["luminosity"][0] + ((star_class["luminosity"][1] - star_class["luminosity"][0]) * star_factor), 4)
-	mass = round(star_class["mass"][0] + ((star_class["mass"][1] - star_class["mass"][0]) * star_factor), 4)
-	return Star(result, star_class["description"], luminosity, mass)
+	luminosity = round(star_info["luminosity"][0] + ((star_info["luminosity"][1] - star_info["luminosity"][0]) * star_factor), 4)
+	mass = round(star_info["mass"][0] + ((star_info["mass"][1] - star_info["mass"][0]) * star_factor), 4)
+	return Star(star_class.name, star_info["description"], luminosity, mass)
 	
 def generate_planet(parent_star, distance_range, radius_range, gravity_range):	
 	# per artifexian, the ratio of stable orbits between adjacent planets tends to be 1.4-2.0

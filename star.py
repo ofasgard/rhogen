@@ -1,5 +1,5 @@
 import util
-import math
+import enum, math
 	
 class Star:
 	def __init__(self, spectral_class, description, luminosity, mass):
@@ -65,3 +65,10 @@ class Star:
 		for planet in self.planets:
 			planet.name = "%s %s" % (name, util.integer_to_numeral(planet_number))
 			planet_number += 1	
+			
+class SpectralClass(enum.Enum):
+	A = {"description": "White hue, very bright and hot. Chance for life is very low.", "luminosity": (14.0, 64.0), "mass": (1.75, 2.18)}
+	F = {"description": "Yellow-white hue, brighter and warmer than Sol. Reasonable chance of supporting life.", "luminosity": (2.4, 8.5), "mass": (1.13, 1.61)}
+	G = {"description": "Yellow hue, similar to Sol in luminosity. Chances for life are good.", "luminosity": (0.61, 1.4), "mass": (0.9, 1.06)}
+	K = {"description": "Orange hue, cooler than Sol but with lots of sterilising radiation.", "luminosity": (0.11, 0.41), "mass": (0.59, 0.88)}
+	M = {"description": "Red hue, a very dim and cool star. Chance for life is very low.", "luminosity": (0.0015, 0.061), "mass": (0.08, 0.45)}
