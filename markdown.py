@@ -7,6 +7,7 @@ star_template = string.Template("""
 **$sc-Class**: $description  
 **Luminosity**: $luminosity sols  
 **Mass**: $mass kg  
+**Asteroid Belts**: $belts
 """)
 
 planet_template = string.Template("""
@@ -25,7 +26,14 @@ planet_template = string.Template("""
 def export_star(star):
 	mass_kg = util.stellar_mass_to_kg(star.mass)
 	mass_rounded = '{:0.3e}'.format(mass_kg)
-	output = star_template.substitute(name=star.name, sc=star.spectral_class, description=star.description, luminosity=star.luminosity, mass=mass_rounded)
+	
+	if len(star.belts) == 0:
+		belts_str = "none"
+	else:
+		belts_array = ["%0.2f AU" % x for x in star.belts]
+		belts_str = ", ".join(belts_array)
+	
+	output = star_template.substitute(name=star.name, sc=star.spectral_class, description=star.description, luminosity=star.luminosity, mass=mass_rounded, belts=belts_str)
 	for planet in star.planets:
 		output += export_planet(planet)
 	return output
