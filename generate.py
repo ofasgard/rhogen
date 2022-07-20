@@ -67,8 +67,7 @@ def generate_system(habitable_quota, terrestrial_quota, giant_quota, spectral_cl
 		if count >= habitable_quota:
 			break
 		candidate = generate_habitable_planet(star)
-		result = star.add_planet(candidate)
-		if result:
+		if star.add_planet(candidate):
 			count += 1
 	
 	count = 0
@@ -76,8 +75,7 @@ def generate_system(habitable_quota, terrestrial_quota, giant_quota, spectral_cl
 		if count >= terrestrial_quota:
 			break
 		candidate = generate_terrestrial_planet(star)
-		result = star.add_planet(candidate)
-		if result:
+		if star.add_planet(candidate):
 			count += 1
 
 	count = 0
@@ -85,8 +83,7 @@ def generate_system(habitable_quota, terrestrial_quota, giant_quota, spectral_cl
 		if count >= giant_quota:
 			break
 		candidate = generate_gas_giant(star)
-		result = star.add_planet(candidate)
-		if result:
+		if star.add_planet(candidate):
 			count += 1
 
 	return star
