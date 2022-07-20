@@ -1,5 +1,5 @@
 import util
-import math, random
+import enum, math, random
 
 class Planet:
 	def __init__(self, distance, radius, gravity, stellar_luminosity, stellar_mass):
@@ -26,9 +26,9 @@ class Planet:
 		"Atmosphere: what kind of atmosphere does this planet have, if any?"
 		self.atmosphere = self.calculate_atmosphere()
 		# Relcalculate temperatures
-		if self.atmosphere == "thin":
+		if self.atmosphere == Atmosphere.thin:
 			self.temperature = self.calculate_temperature(greenhouse_factor=0.8)
-		if self.atmosphere == "dense":
+		if self.atmosphere == Atmosphere.dense:
 			self.temperature = self.calculate_temperature(greenhouse_factor=1.4)
 		"Biosphere: what kind of biosphere does this planet have, if any?"
 		self.biosphere = self.calculate_biosphere()
@@ -67,9 +67,9 @@ class Planet:
 		# First, check whether it is a gas/ice giant based on size, and whether it's beyond the system's snow or liquid hydrogen lines.
 		if (self.radius >= 2.0) and (self.mass >= 3.5):
 			if (self.sunlight <= 0.00251):
-				return "ice giant"
+				return Atmosphere.ice_giant
 			if (self.sunlight <= 0.041):
-				return "gas giant"
+				return Atmosphere.gas_giant
 		# Next is probably the most complex calculation; it involves calculating the planet's escape velocity (based on gravity).
 		# You can then use this to figure out which gases the planet can hold onto; if it can only hold onto heavier gases, the atmosphere is thin.
 		escape_constant = 2.365 * (10 ** -5)
@@ -84,17 +84,32 @@ class Planet:
 		nitrogen_velocity = math.sqrt((3.00 * molar_gas_constant * self.temperature) / nitrogen_weight)
 		if nitrogen_velocity >= jeans_escape_velocity:
 			# The planet cannot hold onto nitrogen; it has only a thin atmosphere.
-			return "thin"
+			return Atmosphere.thin
 		# Otherwise, this is a standard kind of terrestrial planet that could have a range of atmospheres.
-		return random.choice(["thin", "breathable", "inert", "dense", "corrosive"])
+		return random.choice([Atmosphere.thin, Atmosphere.breathable, Atmosphere.inert, Atmosphere.dense, Atmosphere.corrosive])
 	def calculate_biosphere(self):
 		possible_biospheres = {
-			"thin": ["none", "remnant"],
-			"inert": ["none", "microbial", "remnant", "alien"],
-			"dense": ["none", "microbial", "remnant", "alien"],
-			"corrosive": ["none", "microbial", "remnant", "alien"],
-			"breathable": ["microbial", "remnant", "alien"],
-			"gas giant": ["none"],
-			"ice giant": ["none"]
+			Atmosphere.thin: [Biosphere.none, Biosphere.remnant],
+			Atmosphere.inert: [Biosphere.none, Biosphere.microbial, Biosphere.remnant, Biosphere.alien],
+			Atmosphere.dense: [Biosphere.none, Biosphere.microbial, Biosphere.remnant, Biosphere.alien],
+			Atmosphere.corrosive: [Biosphere.none, Biosphere.microbial, Biosphere.remnant, Biosphere.alien],
+			Atmosphere.breathable: [Biosphere.microbial, Biosphere.remnant, Biosphere.alien],
+			Atmosphere.gas_giant: [Biosphere.none],
+			Atmosphere.ice_giant: [Biosphere.none]
 		}
 		return random.choice(possible_biospheres[self.atmosphere])
+		
+class Atmosphere(str,enum.Enum):
+	thin = "thin"
+	inert = "inert"
+	breathable = "breathable"
+	dense = "dense"
+	corrosive = "corrosive"
+	gas_giant = "gas giant"
+	ice_giant = "ice giant"
+	
+class Biosphere(str,enum.Enum):
+	none = "none"
+	microbial = "microbial"
+	remnant = "remnant"
+	alien = "alien"

@@ -1,3 +1,5 @@
+from planet import Atmosphere
+
 import util
 import cairo, math
 	
@@ -21,19 +23,19 @@ def get_planet_color(planet, x, y):
 	radius = get_planet_radius(planet)
 	pattern = cairo.RadialGradient(x, y, (radius / 10), x, y, radius)
 	pattern.add_color_stop_rgb(1.0, 0, 0, 0)
-	if planet.atmosphere == "thin":
+	if planet.atmosphere == Atmosphere.thin:
 		pattern.add_color_stop_rgb(0.8, 0.4, 0.4, 0.4)
-	if planet.atmosphere == "inert":
+	if planet.atmosphere ==  Atmosphere.inert:
 		pattern.add_color_stop_rgb(0.8, 0.9, 0.9, 0.9)
-	if planet.atmosphere == "breathable":
+	if planet.atmosphere == Atmosphere.breathable:
 		pattern.add_color_stop_rgb(0.8, 0.2, 0.3, 0.9)
-	if planet.atmosphere == "dense":
+	if planet.atmosphere == Atmosphere.dense:
 		pattern.add_color_stop_rgb(0.8, 0.70, 0.3, 0.3)
-	if planet.atmosphere == "corrosive":
+	if planet.atmosphere == Atmosphere.corrosive:
 		pattern.add_color_stop_rgb(0.8, 0.3, 1.0, 0.3)
-	if planet.atmosphere == "gas giant":
+	if planet.atmosphere == Atmosphere.gas_giant:
 		pattern.add_color_stop_rgb(0.8, 1.0, 0.5, 0.5)
-	if planet.atmosphere == "ice giant":
+	if planet.atmosphere == Atmosphere.ice_giant:
 		pattern.add_color_stop_rgb(0.8, 0.7, 0.7, 1.0)
 	return pattern
 	
