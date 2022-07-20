@@ -122,7 +122,7 @@ def draw_system(system, canvas_size):
 		# belts
 		ctx.set_source_rgb(0.7,0.3,0.3)
 		radius = get_orbit_radius(system, belt)
-		ctx.set_line_width(0.002)
+		ctx.set_line_width(0.003)
 		ctx.set_dash([0.005, 0.010], 0)
 		ctx.arc(0.5, 0.5, radius, 0, 2*math.pi)
 		ctx.stroke()
