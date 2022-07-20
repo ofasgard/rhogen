@@ -10,7 +10,6 @@ $ rhogen.py -h
 
 Goals for the future include:
 
-- Generate asteroid belts, represented on the map as different-colored orbits with no planets.
 - Generate satellites around planets.
 - Generate rings around planets.
 
