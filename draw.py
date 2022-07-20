@@ -86,6 +86,7 @@ def draw_system(system, canvas_size):
 		ctx.set_source_rgb(1,1,1)
 		radius = get_orbit_radius(system, planet)
 		ctx.set_line_width(0.001)
+		ctx.set_dash([0.02, 0.01], 0)
 		ctx.arc(0.5, 0.5, radius, 0, 2*math.pi)
 		ctx.stroke()
 		ctx.new_path()
