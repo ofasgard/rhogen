@@ -24,10 +24,7 @@ giant_gravities = [10.0, 20.0]
 
 def get_possible_orbits(star):
 	# per artifexian, the ratio of stable orbits between adjacent planets tends to be 1.4-2.0
-	if len(star.planets) > 0:
-		possible_orbits = [ star.planets[0].distance ]
-	else:
-		possible_orbits = [ star.inner_limit ]
+	possible_orbits = [ star.inner_limit ]
 	while True:
 		next_orbit = possible_orbits[-1] * 1.4
 		if next_orbit > star.outer_limit:
@@ -65,6 +62,14 @@ generate_gas_giant = lambda parent : generate_planet(parent, [parent.snow_line, 
 
 def generate_system(habitable_quota, terrestrial_quota, giant_quota, belt_quota, spectral_class=None, max_cycles=100):
 	star = generate_star(spectral_class)
+
+	count = 0
+	for i in range(max_cycles):
+		if count >= giant_quota:
+			break
+		candidate = generate_gas_giant(star)
+		if star.add_planet(candidate):
+			count += 1
 	
 	count = 0
 	for i in range(max_cycles):
@@ -79,14 +84,6 @@ def generate_system(habitable_quota, terrestrial_quota, giant_quota, belt_quota,
 		if count >= terrestrial_quota:
 			break
 		candidate = generate_terrestrial_planet(star)
-		if star.add_planet(candidate):
-			count += 1
-
-	count = 0
-	for i in range(max_cycles):
-		if count >= giant_quota:
-			break
-		candidate = generate_gas_giant(star)
 		if star.add_planet(candidate):
 			count += 1
 			
