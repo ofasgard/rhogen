@@ -25,6 +25,12 @@ class Planet:
 		self.temperature = self.calculate_temperature()
 		"Atmosphere: what kind of atmosphere does this planet have, if any?"
 		self.atmosphere = self.calculate_atmosphere()
+		
+		# Relcalculate temperatures
+		if self.atmosphere == "thin":
+			self.temperature = self.calculate_temperature(greenhouse_factor=0.8)
+		if self.atmosphere == "dense":
+			self.temperature = self.calculate_temperature(greenhouse_factor=1.4)
 	def calculate_mass(self):
 		# The mass of a planet can be calculated using its radius and gravity, inferring its density.
 		mass = self.gravity * (self.radius ** 2)
