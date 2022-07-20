@@ -19,6 +19,7 @@ planet_template = string.Template("""
 **Year Length**: $year days  
 **Surface Temperature**: $temperature °C  
 **Atmosphere**: $atmosphere  
+**Biosphere**: $biosphere  
 """)
 
 def export_star(star):
@@ -37,5 +38,5 @@ def export_planet(planet):
 	gravity = round(planet.gravity, 2)
 	year_length = round(planet.year_length, 1)
 	temperature_c = round(util.kelvin_to_celsius(planet.temperature), 1)
-	return planet_template.substitute(name=planet.name, distance=distance_au, radius=radius_km, mass=mass_rounded, gravity=gravity, year=year_length, temperature=temperature_c, atmosphere=planet.atmosphere)
+	return planet_template.substitute(name=planet.name, distance=distance_au, radius=radius_km, mass=mass_rounded, gravity=gravity, year=year_length, temperature=temperature_c, atmosphere=planet.atmosphere, biosphere=planet.biosphere)
 
