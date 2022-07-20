@@ -45,7 +45,7 @@ class Planet:
 	def calculate_year_length(self, stellar_mass):
 		# The length of a year is a factor of the star's mass (and thus gravity) and of the planet's distance from it.
 		year_length = math.sqrt(self.distance ** 3 / stellar_mass)
-		return year_length * 365
+		return year_length * 365.256
 	def calculate_sunlight(self, stellar_luminosity):
 		# The intensity of sunlight a planet receives is a factor of the star's luminosity and the planet's distance.
 		sunlight = stellar_luminosity / (self.distance ** 2)
