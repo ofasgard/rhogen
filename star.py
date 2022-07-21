@@ -25,6 +25,12 @@ class Star:
 		self.planets = []
 		"Asteroid Belts: a list of distances (in AU) that represent asteroid belts in orbit around this star."
 		self.belts = []
+	def name_star(self, name):
+		self.name = name
+		planet_number = 1
+		for planet in self.planets:
+			planet.name = "%s %s" % (name, util.integer_to_numeral(planet_number))
+			planet_number += 1	
 	def calculate_inner_limit(self):
 		# The star's inner limit is determined by either luminosity or gravity, whichever is higher.
 		gravity_limit = 0.2 * self.mass
@@ -86,12 +92,14 @@ class Star:
 		self.belts.append(radius)
 		self.belts.sort()
 		return True
-	def name_star(self, name):
-		self.name = name
-		planet_number = 1
-		for planet in self.planets:
-			planet.name = "%s %s" % (name, util.integer_to_numeral(planet_number))
-			planet_number += 1	
+	def get_orbits(self):
+		# returns an ordered list of this system's orbits
+		# includes planets and asteroid belts
+		orbits = [planet.distance for planet in self.planets]
+		orbits.extend(self.belts)
+		orbits.sort()
+		return orbits
+
 			
 class SpectralClass(enum.Enum):
 	A = {"description": "White hue, very bright and hot. Chance for life is very low.", "luminosity": (14.0, 64.0), "mass": (1.75, 2.18)}

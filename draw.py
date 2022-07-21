@@ -42,9 +42,7 @@ def get_planet_color(planet, x, y):
 def get_orbit_radius(system, distance):
 	# returns the size of each orbit as a proportion of the canvas size (not to scale)
 	# divides the available room (between 0.05 and 0.5) into equal segments based on how many planets there are
-	orbits = [planet.distance for planet in system.planets]
-	orbits.extend(system.belts)
-	orbits.sort()
+	orbits = system.get_orbits()
 
 	min_size = 0.05
 	max_size = 0.5
