@@ -90,7 +90,7 @@ class Star:
 				return False
 		# If all checks pass, add the belt.
 		self.belts.append(belt)
-		self.belts.sort()
+		self.belts.sort(key=lambda x: x.distance)
 		return True
 	def get_orbits(self):
 		# returns an ordered list of this system's orbits
