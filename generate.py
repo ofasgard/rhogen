@@ -1,5 +1,5 @@
-from star import Star, SpectralClass
-from planet import Planet
+from cosmos.star import Star, SpectralClass
+from cosmos.planet import Planet
 import random
 
 # The vast majority of the data and equations used by this tool come from the "Worldbuilding" page on the Atomic Rockets website.

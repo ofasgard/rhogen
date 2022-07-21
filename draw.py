@@ -1,4 +1,4 @@
-from planet import Atmosphere
+from cosmos.planet import Atmosphere
 
 import util
 import cairo, math
