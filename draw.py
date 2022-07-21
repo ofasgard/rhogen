@@ -119,7 +119,7 @@ def draw_system(system, canvas_size):
 	for belt in system.belts:
 		# belts
 		ctx.set_source_rgb(0.7,0.3,0.3)
-		radius = get_orbit_radius(system, belt)
+		radius = get_orbit_radius(system, belt.distance)
 		ctx.set_line_width(0.003)
 		ctx.set_dash([0.005, 0.010], 0)
 		ctx.arc(0.5, 0.5, radius, 0, 2*math.pi)
@@ -129,7 +129,7 @@ def draw_system(system, canvas_size):
 		ctx.move_to(0.49, 0.51 + radius)
 		ctx.set_font_size(0.01)
 		ctx.select_font_face("Arial", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL)
-		ctx.show_text("%s AU" % round(belt, 2))
+		ctx.show_text("%s AU" % round(belt.distance, 2))
 		ctx.new_path()
 		
 

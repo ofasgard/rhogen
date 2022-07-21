@@ -1,5 +1,6 @@
 from cosmos.star import Star, SpectralClass
 from cosmos.planet import Planet
+from cosmos.belt import Belt
 import random
 
 # The vast majority of the data and equations used by this tool come from the "Worldbuilding" page on the Atomic Rockets website.
@@ -60,6 +61,11 @@ generate_habitable_planet = lambda parent : generate_planet(parent, parent.habit
 generate_terrestrial_planet = lambda parent : generate_planet(parent, [parent.inner_limit, parent.snow_line], terrestrial_radii, terrestrial_gravities)
 generate_gas_giant = lambda parent : generate_planet(parent, [parent.snow_line, parent.outer_limit], giant_radii, giant_gravities)
 
+def generate_belt(parent_star):
+	possible_orbits = get_possible_orbits(parent_star)
+	distance = random.choice(possible_orbits)
+	return Belt(distance)
+
 def generate_system(habitable_quota, terrestrial_quota, giant_quota, belt_quota, spectral_class=None, max_cycles=100):
 	star = generate_star(spectral_class)
 
@@ -91,7 +97,7 @@ def generate_system(habitable_quota, terrestrial_quota, giant_quota, belt_quota,
 	for i in range(max_cycles):
 		if count >= belt_quota:
 			break
-		candidate = random.choice(get_possible_orbits(star))
+		candidate = generate_belt(star)
 		if star.add_belt(candidate):
 			count += 1
 

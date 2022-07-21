@@ -30,7 +30,7 @@ def export_star(star):
 	if len(star.belts) == 0:
 		belts_str = "none"
 	else:
-		belts_array = ["%0.2f AU" % x for x in star.belts]
+		belts_array = ["%0.2f AU" % belt.distance for belt in star.belts]
 		belts_str = ", ".join(belts_array)
 	
 	output = star_template.substitute(name=star.name, sc=star.spectral_class, description=star.description, luminosity=star.luminosity, mass=mass_rounded, belts=belts_str)

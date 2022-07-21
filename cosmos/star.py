@@ -71,32 +71,33 @@ class Star:
 		self.planets.append(planet)
 		self.planets.sort(key=lambda x: x.distance)
 		return True	
-	def add_belt(self, radius):
+	def add_belt(self, belt):
 		# Add an asteroid belt to a star. Returns True if successful, or False if it isn't allowed.
 		# The belt must be within the star's inner and outer limits.
-		if radius < self.inner_limit:
+		if belt.distance < self.inner_limit:
 			return False
-		if radius > self.outer_limit:
+		if belt.distance > self.outer_limit:
 			return False
 		# The belt cannot be wtihin another planet's roche limit.
 		for planet in self.planets:
-			distance = abs(radius - planet.distance)
+			distance = abs(belt.distance - planet.distance)
 			if distance < planet.roche_limit:
 				return False
 		# The belt cannot be within 0.1 AU of another belt.
 		for existing_belt in self.belts:
-			distance = abs(radius - existing_belt)
+			distance = abs(belt.distance - existing_belt.distance)
 			if distance < 0.1:
 				return False
 		# If all checks pass, add the belt.
-		self.belts.append(radius)
+		self.belts.append(belt)
 		self.belts.sort()
 		return True
 	def get_orbits(self):
 		# returns an ordered list of this system's orbits
 		# includes planets and asteroid belts
-		orbits = [planet.distance for planet in self.planets]
-		orbits.extend(self.belts)
+		orbits = []
+		orbits.extend([planet.distance for planet in self.planets])
+		orbits.extend([belt.distance for belt in self.belts])
 		orbits.sort()
 		return orbits
 
