@@ -28,7 +28,10 @@ def generate_star(spectral_class=None):
 		# if spectral class was not specified, roll on the star table
 		roll = random.randint(1, 100)
 		spectral_class = next(x[1] for x in star_table if roll <= x[0])
-	star_class = SpectralClass[spectral_class]
+	try:
+		star_class = SpectralClass[spectral_class]
+	except KeyError:
+		raise KeyError("Star class '%s' is not recognised!" % spectral_class)
 	star_info = star_class.value
 	# generate a random number between 0.01 and 1.00 to use as a factor for the star's luminosity and mass
 	star_factor = round(random.uniform(0.01, 1.00), 4)
