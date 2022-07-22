@@ -37,8 +37,15 @@ def generate_star(spectral_class=None):
 	return Star(star_class.name, star_info["description"], luminosity, mass)
 	
 def generate_planet(parent_star, distance_range, radius_range, gravity_range):	
+	# get the star's possible stable orbits and figure out which ones are valid for the distance range
 	possible_orbits = parent_star.get_stable_orbits()
 	valid_orbits = [x for x in possible_orbits if (x >= distance_range[0]) and (x <= distance_range[1])]
+	# remove any orbits that are already occupied
+	existing_orbits = parent_star.get_orbits()
+	valid_orbits = [x for x in valid_orbits if x not in existing_orbits]
+	# try to select a valid orbit
+	if len(valid_orbits) == 0:
+		return None
 	distance = random.choice(valid_orbits)	
 	# radius and gravity are related to each other
 	planet_factor = round(random.uniform(0.01, 1.00), 4)
@@ -51,8 +58,14 @@ generate_terrestrial_planet = lambda parent : generate_planet(parent, [parent.in
 generate_gas_giant = lambda parent : generate_planet(parent, [parent.snow_line, parent.outer_limit], giant_radii, giant_gravities)
 
 def generate_belt(parent_star):
+	# get the star's possible stable orbits and remove any orbits which are already occupied
 	possible_orbits = parent_star.get_stable_orbits()
-	distance = random.choice(possible_orbits)
+	existing_orbits = parent_star.get_orbits()
+	valid_orbits = [x for x in possible_orbits if x not in existing_orbits]
+	# try to select a valid orbit
+	if len(valid_orbits) == None:
+		return None
+	distance = random.choice(valid_orbits)
 	return Belt(distance)
 
 def generate_system(habitable_quota, terrestrial_quota, giant_quota, belt_quota, spectral_class=None, max_cycles=100):
@@ -63,7 +76,7 @@ def generate_system(habitable_quota, terrestrial_quota, giant_quota, belt_quota,
 		if count >= giant_quota:
 			break
 		candidate = generate_gas_giant(star)
-		if star.add_planet(candidate):
+		if candidate != None and star.add_planet(candidate):
 			count += 1
 	
 	count = 0
@@ -71,7 +84,7 @@ def generate_system(habitable_quota, terrestrial_quota, giant_quota, belt_quota,
 		if count >= habitable_quota:
 			break
 		candidate = generate_habitable_planet(star)
-		if star.add_planet(candidate):
+		if candidate != None and star.add_planet(candidate):
 			count += 1
 	
 	count = 0
@@ -79,7 +92,7 @@ def generate_system(habitable_quota, terrestrial_quota, giant_quota, belt_quota,
 		if count >= terrestrial_quota:
 			break
 		candidate = generate_terrestrial_planet(star)
-		if star.add_planet(candidate):
+		if candidate != None and star.add_planet(candidate):
 			count += 1
 			
 	count = 0

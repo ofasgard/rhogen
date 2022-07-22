@@ -51,6 +51,7 @@ class Star:
 		return snow_line
 	def get_stable_orbits(self):
 		# per artifexian, the ratio of stable orbits between adjacent planets tends to be 1.4-2.0
+		# you should use this when adding new celestial bodies to the star, but you don't have to.
 		possible_orbits = [ self.inner_limit ]
 		while True:
 			next_orbit = possible_orbits[-1] * 1.4
