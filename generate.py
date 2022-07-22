@@ -66,7 +66,7 @@ def generate_belt(parent_star):
 	existing_orbits = parent_star.get_orbits()
 	valid_orbits = [x for x in possible_orbits if x not in existing_orbits]
 	# try to select a valid orbit
-	if len(valid_orbits) == None:
+	if len(valid_orbits) == 0:
 		return None
 	distance = random.choice(valid_orbits)
 	return Belt(distance)
