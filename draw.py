@@ -43,6 +43,8 @@ def get_orbit_radius(system, distance):
 	# returns the size of each orbit as a proportion of the canvas size (not to scale)
 	# divides the available room (between 0.05 and 0.5) into equal segments based on how many planets there are
 	orbits = system.get_orbits()
+	if distance not in orbits:
+		raise IndexError("Could not draw an orbit of %f AU because no such orbit exists in the star system!" % distance)
 
 	min_size = 0.05
 	max_size = 0.5
