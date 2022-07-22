@@ -37,7 +37,7 @@ def generate_star(spectral_class=None):
 	return Star(star_class.name, star_info["description"], luminosity, mass)
 	
 def generate_planet(parent_star, distance_range, radius_range, gravity_range):	
-	possible_orbits = parent_star.get_possible_orbits()
+	possible_orbits = parent_star.get_stable_orbits()
 	valid_orbits = [x for x in possible_orbits if (x >= distance_range[0]) and (x <= distance_range[1])]
 	distance = random.choice(valid_orbits)	
 	# radius and gravity are related to each other
@@ -51,7 +51,7 @@ generate_terrestrial_planet = lambda parent : generate_planet(parent, [parent.in
 generate_gas_giant = lambda parent : generate_planet(parent, [parent.snow_line, parent.outer_limit], giant_radii, giant_gravities)
 
 def generate_belt(parent_star):
-	possible_orbits = parent_star.get_possible_orbits()
+	possible_orbits = parent_star.get_stable_orbits()
 	distance = random.choice(possible_orbits)
 	return Belt(distance)
 
