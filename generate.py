@@ -103,7 +103,7 @@ def generate_system(habitable_quota, terrestrial_quota, giant_quota, belt_quota,
 		if count >= belt_quota:
 			break
 		candidate = generate_belt(star)
-		if star.add_belt(candidate):
+		if candidate != None and star.add_belt(candidate):
 			count += 1
 
 	return star

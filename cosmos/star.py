@@ -98,10 +98,10 @@ class Star:
 			distance = abs(belt.distance - planet.distance)
 			if distance < planet.roche_limit:
 				return False
-		# The belt cannot be within 0.1 AU of another belt.
+		# The belt cannot be within 0.001 AU of another belt.
 		for existing_belt in self.belts:
 			distance = abs(belt.distance - existing_belt.distance)
-			if distance < 0.1:
+			if distance < 0.001:
 				return False
 		# All checks passed.
 		return True
