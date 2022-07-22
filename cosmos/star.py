@@ -59,13 +59,20 @@ class Star:
 			else:
 				possible_orbits.append(next_orbit)
 		return possible_orbits
-	def add_planet(self, planet):
-		# Add a planet to a star. Returns True if successful, or False if the planet isn't allowed.
+	def get_orbits(self):
+		# returns an ordered list of this system's orbits
+		# includes planets and asteroid belts
+		orbits = []
+		orbits.extend([planet.distance for planet in self.planets])
+		orbits.extend([belt.distance for belt in self.belts])
+		orbits.sort()
+		return orbits
+	def is_planet_valid(self, planet):
 		# The planet must be within the star's inner and outer limits.
 		if planet.distance < self.inner_limit:
 			return False
 		if planet.distance > self.outer_limit:
-			return False
+			return False	
 		# If two planets are closer than the larger planet's roche limit, then the smaller planet will be torn apart.
 		for existing_planet in self.planets:
 			roche_limit = max(existing_planet.roche_limit, planet.roche_limit)
@@ -77,12 +84,9 @@ class Star:
 			distance = abs(planet.distance - belt_radius)
 			if distance < planet.roche_limit:
 				return False
-		# If all checks pass, add the planet.
-		self.planets.append(planet)
-		self.planets.sort(key=lambda x: x.distance)
+		# All checks passed.
 		return True	
-	def add_belt(self, belt):
-		# Add an asteroid belt to a star. Returns True if successful, or False if it isn't allowed.
+	def is_belt_valid(self, belt):
 		# The belt must be within the star's inner and outer limits.
 		if belt.distance < self.inner_limit:
 			return False
@@ -98,18 +102,24 @@ class Star:
 			distance = abs(belt.distance - existing_belt.distance)
 			if distance < 0.1:
 				return False
-		# If all checks pass, add the belt.
-		self.belts.append(belt)
-		self.belts.sort(key=lambda x: x.distance)
+		# All checks passed.
 		return True
-	def get_orbits(self):
-		# returns an ordered list of this system's orbits
-		# includes planets and asteroid belts
-		orbits = []
-		orbits.extend([planet.distance for planet in self.planets])
-		orbits.extend([belt.distance for belt in self.belts])
-		orbits.sort()
-		return orbits
+	def add_planet(self, planet):
+		# Add a planet to a star. Returns True if successful, or False if the planet isn't allowed.
+		if self.is_planet_valid(planet):
+			self.planets.append(planet)
+			self.planets.sort(key=lambda x: x.distance)
+			return True
+		else:
+			return False	
+	def add_belt(self, belt):
+		# Add an asteroid belt to a star. Returns True if successful, or False if it isn't allowed.
+		if self.is_belt_valid(belt):
+			self.belts.append(belt)
+			self.belts.sort(key=lambda x: x.distance)
+			return True
+		else:
+			return False
 
 			
 class SpectralClass(enum.Enum):
