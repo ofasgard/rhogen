@@ -23,17 +23,6 @@ terrestrial_gravities = [0.1, 2.0]
 giant_radii = [4.0, 15.0]
 giant_gravities = [10.0, 20.0]
 
-def get_possible_orbits(star):
-	# per artifexian, the ratio of stable orbits between adjacent planets tends to be 1.4-2.0
-	possible_orbits = [ star.inner_limit ]
-	while True:
-		next_orbit = possible_orbits[-1] * 1.4
-		if next_orbit > star.outer_limit:
-			break
-		else:
-			possible_orbits.append(next_orbit)
-	return possible_orbits
-
 def generate_star(spectral_class=None):
 	if spectral_class == None:
 		# if spectral class was not specified, roll on the star table
@@ -48,7 +37,7 @@ def generate_star(spectral_class=None):
 	return Star(star_class.name, star_info["description"], luminosity, mass)
 	
 def generate_planet(parent_star, distance_range, radius_range, gravity_range):	
-	possible_orbits = get_possible_orbits(parent_star)
+	possible_orbits = parent_star.get_possible_orbits()
 	valid_orbits = [x for x in possible_orbits if (x >= distance_range[0]) and (x <= distance_range[1])]
 	distance = random.choice(valid_orbits)	
 	# radius and gravity are related to each other
@@ -62,7 +51,7 @@ generate_terrestrial_planet = lambda parent : generate_planet(parent, [parent.in
 generate_gas_giant = lambda parent : generate_planet(parent, [parent.snow_line, parent.outer_limit], giant_radii, giant_gravities)
 
 def generate_belt(parent_star):
-	possible_orbits = get_possible_orbits(parent_star)
+	possible_orbits = parent_star.get_possible_orbits()
 	distance = random.choice(possible_orbits)
 	return Belt(distance)
 

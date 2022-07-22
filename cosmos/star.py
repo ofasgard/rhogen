@@ -49,6 +49,16 @@ class Star:
 		# The snow line is determined exclusively by luminosity. When it is below 0.04, enough volatile compounds can condense for gas/ice giants to form.
 		snow_line = math.sqrt(self.luminosity / 0.04)
 		return snow_line
+	def get_possible_orbits(self):
+		# per artifexian, the ratio of stable orbits between adjacent planets tends to be 1.4-2.0
+		possible_orbits = [ self.inner_limit ]
+		while True:
+			next_orbit = possible_orbits[-1] * 1.4
+			if next_orbit > self.outer_limit:
+				break
+			else:
+				possible_orbits.append(next_orbit)
+		return possible_orbits
 	def add_planet(self, planet):
 		# Add a planet to a star. Returns True if successful, or False if the planet isn't allowed.
 		# The planet must be within the star's inner and outer limits.
