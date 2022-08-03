@@ -10,6 +10,7 @@ $ rhogen.py -h
 
 Goals for the future include:
 
+- Ability to modify the JSON and re-import it for MarkDown and image generation.
 - Generate satellites around planets.
 - Generate rings around planets.
 
